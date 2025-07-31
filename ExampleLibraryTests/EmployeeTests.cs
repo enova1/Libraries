@@ -1,12 +1,10 @@
 ﻿using DataAccess;
 using ExampleLibrary;
+using ExampleLibraryTests.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Models.Employee;
 using Moq;
-using System.Linq.Expressions;
 using Xunit;
-using static System.Threading.Tasks.Task;
 
 namespace ExampleLibraryTests
 {
@@ -123,34 +121,3 @@ namespace ExampleLibraryTests
         }
     }
 }
-
-    internal class TestAsyncQueryProvider<TEntity>(IQueryProvider inner) : IAsyncQueryProvider
-    {
-        public IQueryable CreateQuery(Expression expression) => new TestAsyncEnumerable<TEntity>(expression);
-        public IQueryable<TElement> CreateQuery<TElement>(Expression expression) => new TestAsyncEnumerable<TElement>(expression);
-        public object Execute(Expression expression) => inner.Execute(expression);
-        public TResult Execute<TResult>(Expression expression) => inner.Execute<TResult>(expression);
-        public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression) => new TestAsyncEnumerable<TResult>(expression);
-        public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
-        {
-            return Execute<TResult>(expression);
-        }
-    }
-
-    internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
-    {
-        public TestAsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable) { }
-        public TestAsyncEnumerable(Expression expression) : base(expression) { }
-
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
-            => new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
-
-        IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
-    }
-
-    internal class TestAsyncEnumerator<T>(IEnumerator<T> inner) : IAsyncEnumerator<T>
-    {
-        public T Current => inner.Current;
-        public ValueTask DisposeAsync() => new ValueTask();
-        public ValueTask<bool> MoveNextAsync() => new ValueTask<bool>(inner.MoveNext());
-    }
