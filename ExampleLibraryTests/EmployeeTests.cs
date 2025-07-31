@@ -43,8 +43,8 @@ namespace ExampleLibraryTests
             var result = await service.GetEmployeesTask();
 
             // Assert
-            Assert.Equal(2, result.Count);
-            Assert.Equal("Anna", result[0].FirstName);
+            Xunit.Assert.Equal(2, result.Count);
+            Xunit.Assert.Equal("Anna", result[0].FirstName);
         }
 
         [Fact]
@@ -63,8 +63,8 @@ namespace ExampleLibraryTests
             var result = await service.GetEmployeesTask();
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Empty(result);
+            Xunit.Assert.NotNull(result);
+            Xunit.Assert.Empty(result);
         }
 
         [Fact]
@@ -79,31 +79,32 @@ namespace ExampleLibraryTests
 
             // Act & Assert
             var ex = await Assert.ThrowsAsync<Exception>(() => service.GetEmployeesTask());
-            Assert.Equal("Database error", ex.Message);
+            Xunit.Assert.Equal("Database error", ex.Message);
         }
-        //[Fact()]
-        //public void FilterEmployeesTaskTest()
-        //{
-        //    Xunit.Assert.Fail("This test needs an implementation");
-        //}
 
-        //[Fact()]
-        //public void CreateEmployeeTest()
-        //{
-        //    Xunit.Assert.Fail("This test needs an implementation");
-        //}
+        [Fact()]
+        public void FilterEmployeesTaskTest()
+        {
+            Xunit.Assert.Fail("This test needs an implementation");
+        }
 
-        //[Fact()]
-        //public void EditEmployeeTest()
-        //{
-        //    Xunit.Assert.Fail("This test needs an implementation");
-        //}
+        [Fact()]
+        public void CreateEmployeeTest()
+        {
+            Xunit.Assert.Fail("This test needs an implementation");
+        }
 
-        //[Fact()]
-        //public void DeleteEmployeeTest()
-        //{
-        //    Xunit.Assert.Fail("This test needs an implementation");
-        //}
+        [Fact()]
+        public void EditEmployeeTest()
+        {
+            Xunit.Assert.Fail("This test needs an implementation");
+        }
+
+        [Fact()]
+        public void DeleteEmployeeTest()
+        {
+            Xunit.Assert.Fail("This test needs an implementation");
+        }
 
         // Helper to create async-compatible mocked DbSet
         private static Mock<DbSet<T>> MockDbSet<T>(IQueryable<T> data) where T : class
