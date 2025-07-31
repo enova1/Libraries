@@ -34,81 +34,81 @@ namespace ExampleLibrary
             return employees;
         }
 
-        //public async Task<Employees?> CreateEmployee(Employees employees)
-        //{
-        //    employeeDbContext.Add(employees);
-        //    await employeeDbContext.SaveChangesAsync();
+        public async Task<Employees?> CreateEmployee(Employees employees)
+        {
+            employeeDbContext.Add(employees);
+            await employeeDbContext.SaveChangesAsync();
 
-        //    if (employeeDbContext.Employees != null)
-        //    {
-        //        var saveData = await employeeDbContext.Employees
-        //            .Include(e => e.EmployeePhones)
-        //            .Include(e => e.EmployeeAddresses)
-        //            .FirstOrDefaultAsync(m => m.EmployeeId == employees.EmployeeId);
+            if (employeeDbContext.Employees != null)
+            {
+                var saveData = await employeeDbContext.Employees
+                    .Include(e => e.EmployeePhones)
+                    .Include(e => e.EmployeeAddresses)
+                    .FirstOrDefaultAsync(m => m.EmployeeId == employees.EmployeeId);
 
-        //        if (saveData == null)
-        //        {
-        //            return (null);
-        //        }
+                if (saveData == null)
+                {
+                    return (null);
+                }
 
-        //        if (employees.EmployeePhones != null)
-        //        {
-        //            foreach (var number in employees.EmployeePhones)
-        //            {
-        //                saveData.EmployeePhones!.Add(number);
-        //            }
-        //        }
+                if (employees.EmployeePhones != null)
+                {
+                    foreach (var number in employees.EmployeePhones)
+                    {
+                        saveData.EmployeePhones!.Add(number);
+                    }
+                }
 
-        //        if (employees.EmployeeAddresses != null)
-        //        {
-        //            foreach (var addy in employees.EmployeeAddresses)
-        //            {
-        //                saveData.EmployeeAddresses!.Add(addy);
-        //            }
-        //        }
+                if (employees.EmployeeAddresses != null)
+                {
+                    foreach (var addy in employees.EmployeeAddresses)
+                    {
+                        saveData.EmployeeAddresses!.Add(addy);
+                    }
+                }
 
-        //        employees = saveData;
-        //    }
+                employees = saveData;
+            }
 
-        //    await employeeDbContext.SaveChangesAsync();
+            await employeeDbContext.SaveChangesAsync();
 
-        //    return (employees);
-        //}
+            return (employees);
+        }
 
-        //public async Task<Employees?> EditEmployee(Employees data)
-        //{
-        //    if (employeeDbContext.Employees == null) return null;
-        //    var saveData = await employeeDbContext.Employees.FindAsync(data.EmployeeId);
+        public async Task<Employees?> EditEmployee(Employees data)
+        {
+            if (employeeDbContext.Employees == null) return null;
+            var saveData = await employeeDbContext.Employees.FindAsync(data.EmployeeId);
 
-        //    if (saveData == null)
-        //    {
-        //        return null;
-        //    }
+            if (saveData == null)
+            {
+                return null;
+            }
 
-        //    employeeDbContext.Update(data);
-        //    await employeeDbContext.SaveChangesAsync();
+            employeeDbContext.Update(data);
+            await employeeDbContext.SaveChangesAsync();
 
-        //    return data;
-        //}
+            return data;
+        }
 
-        //public async Task<bool> DeleteEmployee(int id)
-        //{
-        //    if (employeeDbContext.Employees == null)
-        //    {
-        //        return false;
-        //    }
+        public async Task<bool> DeleteEmployee(int id)
+        {
+            if (employeeDbContext.Employees == null)
+            {
+                return false;
+            }
 
-        //    var employee = await employeeDbContext.Employees.FindAsync(id);
-        //    if (employee == null)
-        //    {
-        //        return false;
-        //    }
+            var employee = await employeeDbContext.Employees.FindAsync(id);
+            if (employee == null)
+            {
+                return false;
+            }
 
-        //    employeeDbContext.Employees.Remove(employee);
+            employeeDbContext.Employees.Remove(employee);
 
-        //    await employeeDbContext.SaveChangesAsync();
+            await employeeDbContext.SaveChangesAsync();
 
-        //    return true;
-        //}
+            return true;
+        }
     }
 }
